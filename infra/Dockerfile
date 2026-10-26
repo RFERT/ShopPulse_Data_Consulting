@@ -17,7 +17,8 @@ COPY pyproject.toml README.md ./
 COPY src ./src
 RUN pip install --upgrade pip && pip install .
 
-# Répertoire des artefacts de modèles (montés via docker-compose ou générés par l'entraînement)
+# Artefacts de modèles (compacts, versionnés via git add -f) pour une API autonome.
+COPY artifacts ./artifacts
 RUN mkdir -p artifacts/models
 
 EXPOSE 8000
