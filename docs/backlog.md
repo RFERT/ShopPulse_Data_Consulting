@@ -49,4 +49,4 @@ sont matérialisés par deux issues de jalon.
 - [x] README complet (archi, installation, lancement API, captures dashboard)
 - [x] Rétrospective (docs/retro.md)
 - [x] Support + script de la vidéo de soutenance (10 min)
-- [ ] Vérification « clone & run < 30 min », aucun secret
+- [x] Vérification « clone & run < 30 min », aucun secret
