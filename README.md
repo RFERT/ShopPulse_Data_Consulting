@@ -72,6 +72,9 @@ ruff check .
 pytest
 ```
 
+> L'entraînement du réseau de neurones de sentiment nécessite PyTorch :
+> `pip install -e ".[train]"` (l'API, elle, sert des modèles scikit-learn et n'en a pas besoin).
+
 ## 📊 Données
 
 Les données complètes Olist **ne sont jamais versionnées**. Seuls des échantillons

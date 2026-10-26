@@ -14,7 +14,9 @@ load_dotenv()
 ROOT_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT_DIR / "data"
 SAMPLES_DIR = DATA_DIR / "samples"
-MODELS_DIR = ROOT_DIR / "artifacts" / "models"
+# Répertoire des modèles — surchargeable (utile en conteneur où le package est
+# installé hors de l'arborescence du dépôt).
+MODELS_DIR = Path(os.getenv("SHOPPULSE_MODELS_DIR", str(ROOT_DIR / "artifacts" / "models")))
 SQL_DIR = ROOT_DIR / "sql"
 
 

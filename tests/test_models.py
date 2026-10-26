@@ -83,6 +83,9 @@ def test_sentiment_baseline_learns() -> None:
 
 
 def test_sentiment_nn_trains_and_predicts() -> None:
+    import pytest
+
+    pytest.importorskip("torch", reason="PyTorch requis (extra 'train')")
     texts = ["bom otimo excelente"] * 30 + ["ruim pessimo horrivel"] * 30
     labels = [1] * 30 + [0] * 30
     vocab = sentiment.build_vocab(texts, min_freq=1)
