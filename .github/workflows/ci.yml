@@ -9,6 +9,29 @@ on:
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: shoppulse
+          POSTGRES_USER: shoppulse
+          POSTGRES_PASSWORD: shoppulse
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U shoppulse"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: shoppulse
+      POSTGRES_USER: shoppulse
+      POSTGRES_PASSWORD: shoppulse
+
     steps:
       - uses: actions/checkout@v4
 
@@ -29,8 +52,11 @@ jobs:
       - name: Format check (ruff)
         run: ruff format --check .
 
+      - name: Initialise database schema
+        run: psql "postgresql://shoppulse:shoppulse@localhost:5432/shoppulse" -f sql/schema.sql
+
       - name: Tests (pytest + coverage)
-        run: pytest --cov=shoppulse --cov-report=term-missing --cov-fail-under=50
+        run: pytest --cov=shoppulse --cov=shoppulse_etl --cov-report=term-missing --cov-fail-under=50
 
       - name: Build Docker image
         run: docker build -f infra/Dockerfile -t shoppulse-api:ci .

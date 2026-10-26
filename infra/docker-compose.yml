@@ -7,6 +7,7 @@ x-airflow-env: &airflow-env
   AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow
   AIRFLOW__CORE__LOAD_EXAMPLES: "false"
   AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+  PYTHONPATH: /opt/airflow:/opt/airflow/src
   # Connexion vers la base métier ShopPulse
   POSTGRES_HOST: postgres
   POSTGRES_PORT: "5432"
@@ -55,12 +56,13 @@ services:
       <<: *airflow-env
       _AIRFLOW_WWW_USER_USERNAME: admin
       _AIRFLOW_WWW_USER_PASSWORD: admin
-      _PIP_ADDITIONAL_REQUIREMENTS: "pandas>=2.1 sqlalchemy>=2.0 psycopg2-binary>=2.9"
+      _PIP_ADDITIONAL_REQUIREMENTS: "pandas>=2.1 sqlalchemy>=2.0 psycopg2-binary>=2.9 python-dotenv>=1.0 tabulate>=0.9"
     ports:
       - "8080:8080"
     volumes:
       - ../pipelines/dags:/opt/airflow/dags
       - ../pipelines/shoppulse_etl:/opt/airflow/shoppulse_etl
+      - ../src:/opt/airflow/src
       - ../data:/opt/airflow/data
       - ../sql:/opt/airflow/sql
     command: >
