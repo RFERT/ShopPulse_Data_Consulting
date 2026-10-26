@@ -218,3 +218,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ===== ShopPulse (projet) =====
+# Artefacts & données complètes (jamais versionnés — seuls les échantillons <1Mo)
+artifacts/
+data/raw/
+data/olist/
+data/*.csv
+!data/samples/
+!data/samples/*.csv
+
+# Airflow runtime
+pipelines/logs/
+standalone_admin_password.txt
+
+# Secrets
+.env

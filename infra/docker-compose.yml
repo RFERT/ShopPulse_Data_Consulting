@@ -1,0 +1,114 @@
+# docker-compose — socle ShopPulse : PostgreSQL + Airflow + API + Streamlit
+# Lancer depuis la racine du dépôt :  docker compose -f infra/docker-compose.yml up -d
+name: shoppulse
+
+x-airflow-env: &airflow-env
+  AIRFLOW__CORE__EXECUTOR: LocalExecutor
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow
+  AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+  # Connexion vers la base métier ShopPulse
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: shoppulse
+  POSTGRES_USER: shoppulse
+  POSTGRES_PASSWORD: shoppulse
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: shoppulse-postgres
+    environment:
+      POSTGRES_DB: shoppulse
+      POSTGRES_USER: shoppulse
+      POSTGRES_PASSWORD: shoppulse
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ../sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shoppulse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  airflow-db:
+    image: postgres:16-alpine
+    container_name: shoppulse-airflow-db
+    environment:
+      POSTGRES_DB: airflow
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+
+  airflow:
+    image: apache/airflow:2.9.2-python3.11
+    container_name: shoppulse-airflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-db:
+        condition: service_started
+    environment:
+      <<: *airflow-env
+      _AIRFLOW_WWW_USER_USERNAME: admin
+      _AIRFLOW_WWW_USER_PASSWORD: admin
+      _PIP_ADDITIONAL_REQUIREMENTS: "pandas>=2.1 sqlalchemy>=2.0 psycopg2-binary>=2.9"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../pipelines/dags:/opt/airflow/dags
+      - ../pipelines/shoppulse_etl:/opt/airflow/shoppulse_etl
+      - ../data:/opt/airflow/data
+      - ../sql:/opt/airflow/sql
+    command: >
+      bash -c "airflow db migrate &&
+               airflow users create --username admin --password admin
+               --firstname admin --lastname admin --role Admin --email admin@shoppulse.local || true &&
+               (airflow scheduler & airflow webserver)"
+
+  api:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    container_name: shoppulse-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: shoppulse
+      POSTGRES_USER: shoppulse
+      POSTGRES_PASSWORD: shoppulse
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../artifacts:/app/artifacts
+
+  dashboard:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    container_name: shoppulse-dashboard
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: shoppulse
+      POSTGRES_USER: shoppulse
+      POSTGRES_PASSWORD: shoppulse
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../artifacts:/app/artifacts
+      - ../dashboards:/app/dashboards
+    command: ["streamlit", "run", "dashboards/app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+
+volumes:
+  pg_data:
+  airflow_db_data:
