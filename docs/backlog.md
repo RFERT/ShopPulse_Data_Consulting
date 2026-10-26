@@ -25,28 +25,28 @@ sont matérialisés par deux issues de jalon.
 - [x] Échantillons < 1 Mo versionnés
 
 ## Lot 3 — Analyse et marketing
-- [ ] EDA documentée (distributions, saisonnalité, géographie)
-- [ ] Deux tests statistiques motivés par une question métier
-- [ ] Segmentation RFM + clustering → 3 personas
-- [ ] 3 recommandations de campagnes chiffrées
-- [ ] Dashboard Streamlit (5 KPI) branché sur PostgreSQL
+- [x] EDA documentée (distributions, saisonnalité, géographie)
+- [x] Deux tests statistiques motivés par une question métier
+- [x] Segmentation RFM + clustering → 3 personas
+- [x] 3 recommandations de campagnes chiffrées
+- [x] Dashboard Streamlit (5 KPI) branché sur PostgreSQL
 
 ## Lot 4 — Modèles
-- [ ] Feature engineering (distance client-vendeur, délai estimé, poids, historique vendeur)
-- [ ] Prédiction de retard : baseline + 2 algorithmes, validation croisée, métriques déséquilibre
-- [ ] Sentiment : baseline TF-IDF vs réseau de neurones PyTorch, courbes, analyse d'erreurs
-- [ ] Audit d'équité du modèle de retard par région
-- [ ] Note éthique (1 page)
+- [x] Feature engineering (distance client-vendeur, délai estimé, poids, historique vendeur)
+- [x] Prédiction de retard : baseline + 2 algorithmes, validation croisée, métriques déséquilibre
+- [x] Sentiment : baseline TF-IDF vs réseau de neurones PyTorch, courbes, analyse d'erreurs
+- [x] Audit d'équité du modèle de retard par région
+- [x] Note éthique (1 page)
 
 ## Lot 5 — Industrialisation
-- [ ] API FastAPI (1 endpoint par modèle, validation, OpenAPI)
-- [ ] Package Python typé et linté (ruff)
-- [ ] Tests pytest (unitaires + données), couverture ≥ 50 %
-- [ ] Dockerfile + docker-compose fonctionnels
-- [ ] CI GitHub Actions (lint, tests, build) au vert
+- [x] API FastAPI (1 endpoint par modèle, validation, OpenAPI)
+- [x] Package Python typé et linté (ruff)
+- [x] Tests pytest (unitaires + données), couverture ≥ 50 %
+- [x] Dockerfile + docker-compose fonctionnels
+- [x] CI GitHub Actions (lint, tests, build) au vert
 
 ## Finalisation
-- [ ] README complet (archi, installation, lancement API, captures dashboard)
-- [ ] Rétrospective (docs/retro.md)
-- [ ] Support + script de la vidéo de soutenance (10 min)
+- [x] README complet (archi, installation, lancement API, captures dashboard)
+- [x] Rétrospective (docs/retro.md)
+- [x] Support + script de la vidéo de soutenance (10 min)
 - [ ] Vérification « clone & run < 30 min », aucun secret

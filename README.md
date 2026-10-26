@@ -1,5 +1,7 @@
 # ShopPulse — Plateforme Data & IA
 
+[![CI](https://github.com/RFERT/ShopPulse_Data_Consulting/actions/workflows/ci.yml/badge.svg)](https://github.com/RFERT/ShopPulse_Data_Consulting/actions/workflows/ci.yml)
+
 > Mission Flash — consultant data pour **ShopPulse**, marketplace e-commerce fictive.
 > Jeu de données : **Brazilian E-Commerce Public Dataset by Olist** (Kaggle).
 
@@ -80,6 +82,52 @@ pytest
 Les données complètes Olist **ne sont jamais versionnées**. Seuls des échantillons
 < 1 Mo figurent dans [data/samples/](data/samples/). La procédure de récupération du
 jeu complet (Kaggle) est décrite dans [docs/cadrage.md](docs/cadrage.md).
+
+## 🔌 Utilisation de l'API
+
+Documentation interactive : http://localhost:8000/docs
+
+```bash
+# Sentiment d'un avis (portugais)
+curl -X POST localhost:8000/predict/sentiment \
+     -H "Content-Type: application/json" \
+     -d '{"texte":"produto excelente, entrega rápida"}'
+# -> {"sentiment":"positif","probabilite_positif":0.97}
+
+# Risque de retard d'une commande
+curl -X POST localhost:8000/predict/retard \
+     -H "Content-Type: application/json" \
+     -d '{"distance_km":450,"delai_estime_jours":15,"poids_total":1800,"volume_moy":12000,
+          "fret_total":25,"prix_total":180,"n_items":1,"seller_order_count":120,
+          "customer_state":"RJ","seller_state":"SP"}'
+# -> {"probabilite_retard":0.73,"risque_eleve":true,"seuil":0.3}
+```
+
+## 🔁 Rejouer le pipeline et l'entraînement
+
+```bash
+# 1. Charger les données dans PostgreSQL (échantillons ou jeu complet)
+python -m shoppulse_etl.flow --source data/olist
+
+# 2. (Ré)entraîner les modèles et régénérer les rapports
+pip install -e ".[train]"      # PyTorch pour le réseau de neurones
+python -m shoppulse.models.train
+```
+
+## 📚 Documentation
+
+| Document | Contenu |
+|---|---|
+| [docs/cadrage.md](docs/cadrage.md) | Note de cadrage (enjeux, objectifs, utilisateurs) |
+| [docs/arbitrage.md](docs/arbitrage.md) | Arbitrages techniques |
+| [docs/architecture.md](docs/architecture.md) | Schéma d'architecture cible |
+| [docs/mld.md](docs/mld.md) | Modèle de données |
+| [docs/marketing.md](docs/marketing.md) | Personas & recommandations chiffrées |
+| [docs/rapport_qualite.md](docs/rapport_qualite.md) | Rapport qualité ETL |
+| [docs/rapport_modeles.md](docs/rapport_modeles.md) | Performances des modèles |
+| [docs/ethique.md](docs/ethique.md) | Note éthique (biais, RGPD, limites) |
+| [docs/retro.md](docs/retro.md) | Rétrospective |
+| [docs/video_script.md](docs/video_script.md) | Support & script de la soutenance |
 
 ## 🧪 Qualité & CI
 
