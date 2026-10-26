@@ -24,6 +24,10 @@ Voir [docs/architecture.md](docs/architecture.md).
 Stack : **PostgreSQL** · **Airflow** (ETL) · **scikit-learn / PyTorch** · **FastAPI** ·
 **Streamlit** · **Docker** · **GitHub Actions**.
 
+## 📊 Aperçu du tableau de bord
+
+![Aperçu du dashboard](dashboards/apercu_dashboard.png)
+
 ## 📂 Arborescence
 
 ```
