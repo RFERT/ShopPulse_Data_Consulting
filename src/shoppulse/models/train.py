@@ -15,7 +15,7 @@ from sklearn.metrics import classification_report, f1_score
 from sklearn.model_selection import train_test_split
 
 from shoppulse.config import ROOT_DIR
-from shoppulse.models import delay, equity, sentiment
+from shoppulse.models import delay, equity, sentiment, tracking
 
 
 def train_delay() -> dict:
@@ -29,6 +29,21 @@ def train_delay() -> dict:
     audit = equity.audit_by_region(pipe, test_df)
     gap = equity.equity_gap(audit)
     delay.save_model(pipe)
+
+    with tracking.start_run("delay_random_forest") as run:
+        run.log_params({"model": "random_forest", "n_observations": len(df)})
+        run.log_metrics(
+            {
+                "roc_auc": metrics["roc_auc"],
+                "pr_auc": metrics["pr_auc"],
+                "recall_late": metrics["report"]["1"]["recall"],
+                "f1_late": metrics["report"]["1"]["f1-score"],
+                "equity_gap_recall": gap["ecart_rappel"],
+                "equity_gap_fpr": gap["ecart_fpr"],
+            }
+        )
+        run.log_artifact(delay.DELAY_MODEL_PATH)
+
     return {
         "n": len(df),
         "taux_retard": round(df[delay.TARGET].mean(), 4),
@@ -58,6 +73,11 @@ def train_sentiment() -> dict:
 
     # Analyse d'erreurs : exemples mal classés par la baseline.
     err = te.loc[base_pred != te["label"], ["texte", "review_score", "label"]].head(5)
+
+    with tracking.start_run("sentiment_baseline_vs_nn") as run:
+        run.log_params({"n_observations": len(df), "nn_epochs": len(history)})
+        run.log_metrics({"baseline_f1": base_f1, "nn_f1": nn_f1})
+
     return {
         "n": len(df),
         "pos_rate": round(df["label"].mean(), 4),

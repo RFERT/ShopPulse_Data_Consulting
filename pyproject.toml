@@ -37,6 +37,9 @@ dev = [
 train = [
     "torch>=2.2",
 ]
+mlflow = [
+    "mlflow>=2.12",
+]
 notebooks = [
     "jupyter>=1.0",
     "matplotlib>=3.8",
