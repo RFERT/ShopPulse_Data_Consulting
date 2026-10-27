@@ -126,8 +126,35 @@ python -m shoppulse.models.train
 | [docs/rapport_qualite.md](docs/rapport_qualite.md) | Rapport qualité ETL |
 | [docs/rapport_modeles.md](docs/rapport_modeles.md) | Performances des modèles |
 | [docs/ethique.md](docs/ethique.md) | Note éthique (biais, RGPD, limites) |
+| [docs/mlflow.md](docs/mlflow.md) | Suivi d'expériences MLflow (bonus) |
+| [docs/supervision_elk.md](docs/supervision_elk.md) | Supervision des logs ELK (bonus) |
+| [docs/spark_clickstream.md](docs/spark_clickstream.md) | Traitement Spark du clickstream (bonus) |
+| [docs/deploiement_cloud.md](docs/deploiement_cloud.md) | Déploiement cloud AWS & coût (bonus) |
 | [docs/retro.md](docs/retro.md) | Rétrospective |
 | [docs/video_script.md](docs/video_script.md) | Support & script de la soutenance |
+
+## ✨ Bonus (hors périmètre obligatoire)
+
+Les quatre pistes valorisées par l'énoncé sont implémentées, en restant
+**optionnelles** pour préserver le « clone & run » et une CI légère (extras pip +
+profils docker-compose).
+
+| Bonus | Mise en œuvre | Détail |
+|---|---|---|
+| **MLflow** — suivi d'expériences | journalisation des runs dans `train.py` ; profil `tracking` | [docs/mlflow.md](docs/mlflow.md) |
+| **ELK** — supervision des logs | logs JSON + middleware API ; profil `observability` | [docs/supervision_elk.md](docs/supervision_elk.md) |
+| **Spark** — clickstream REES46 | job PySpark (entonnoir view→cart→purchase) sur échantillon | [docs/spark_clickstream.md](docs/spark_clickstream.md) |
+| **Cloud AWS** — déploiement + coût | IaC Terraform ECS Fargate + RDS, estimation mensuelle | [docs/deploiement_cloud.md](docs/deploiement_cloud.md) |
+
+```bash
+# Activer un profil optionnel (exemples)
+docker compose -f infra/docker-compose.yml --profile tracking up -d mlflow
+docker compose -f infra/docker-compose.yml --profile observability up -d
+
+# Extras pip
+pip install -e ".[mlflow]"   # suivi d'expériences
+pip install -e ".[spark]"    # job PySpark (nécessite un JDK)
+```
 
 ## 🧪 Qualité & CI
 
