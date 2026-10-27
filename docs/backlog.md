@@ -50,3 +50,9 @@ sont matérialisés par deux issues de jalon.
 - [x] Rétrospective (docs/retro.md)
 - [x] Support + script de la vidéo de soutenance (10 min)
 - [x] Vérification « clone & run < 30 min », aucun secret
+
+## Bonus (valorisés, hors périmètre obligatoire)
+- [x] Suivi d'expériences **MLflow** (runs retard & sentiment, profil `tracking`)
+- [x] Supervision **ELK** (logs JSON + middleware API, profil `observability`)
+- [x] Traitement **Spark** du clickstream REES46 (entonnoir view→cart→purchase)
+- [x] Déploiement **cloud AWS** (IaC Terraform ECS Fargate + RDS) + estimation de coût

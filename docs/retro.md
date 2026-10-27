@@ -14,8 +14,10 @@
 - Le modèle de retard a un **rappel modéré au seuil 0,5** : le signal (distance, délai
   estimé) est réel mais partiel. Contourné en exposant la **probabilité** et un seuil
   métier abaissé, plutôt qu'une décision binaire rigide.
-- **Bonus non traités** (conformément au périmètre) : Spark/REES46, ELK, déploiement
-  cloud, MLflow.
+- **Bonus initialement hors périmètre, finalement traités** : les quatre pistes
+  valorisées (MLflow, ELK, Spark/REES46, déploiement cloud AWS) ont été ajoutées après
+  la livraison des cinq lots, en restant **optionnelles** (extras pip + profils
+  docker-compose) pour ne pas alourdir le parcours par défaut ni la CI.
 
 ## Ce que je referais autrement
 - **Enrichir les features** du modèle de retard (historique de délais réels par
