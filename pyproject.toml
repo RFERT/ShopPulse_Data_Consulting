@@ -40,6 +40,9 @@ train = [
 mlflow = [
     "mlflow>=2.12",
 ]
+spark = [
+    "pyspark>=3.5,<4",
+]
 notebooks = [
     "jupyter>=1.0",
     "matplotlib>=3.8",
