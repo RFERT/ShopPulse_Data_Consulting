@@ -17,12 +17,16 @@ from shoppulse.api.schemas import (
     SentimentRequest,
     SentimentResponse,
 )
+from shoppulse.observability.logging import configure_logging, log_requests
+
+configure_logging()
 
 app = FastAPI(
     title="ShopPulse API",
     description="API de la plateforme Data & IA ShopPulse (dataset Olist).",
     version=__version__,
 )
+app.middleware("http")(log_requests)
 
 
 @app.get("/", tags=["meta"])
