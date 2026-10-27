@@ -38,7 +38,7 @@ def health() -> dict[str, str]:
 
 
 @app.post("/predict/retard", response_model=DelayResponse, tags=["predictions"])
-def predict_retard(payload: DelayRequest) -> DelayResponse:
+def delay_endpoint(payload: DelayRequest) -> DelayResponse:
     """Prédit le risque de retard de livraison d'une commande."""
     try:
         result = predict_delay(payload.model_dump())
