@@ -1,7 +1,10 @@
 # Support & script de la vidéo de soutenance (10 min max)
 
 > Vidéo **face caméra**, l'auteur visible tout au long. Support (slides) rendu avec la
-> vidéo. La trame des 7 points est **imposée** par l'énoncé ; les bonus sont glissés au
+> vidéo : [slides/shoppulse_soutenance.pptx](slides/shoppulse_soutenance.pptx) (10 slides,
+> export [PDF](slides/shoppulse_soutenance.pdf), notes de section dans les notes de
+> l'orateur, régénérable avec `python docs/slides/build_deck.py`). La trame des 7 points
+> est **imposée** par l'énoncé ; les bonus sont glissés au
 > fil de l'eau. Minutage indicatif (cible : **9 min 30**, marge de sécurité).
 >
 > Ce document contient **deux versions** du même déroulé :
@@ -35,7 +38,7 @@ Choisis-en 2-3, n'en abuse pas — l'énoncé évalue le fond.
 ## 1. Le problème de ShopPulse et la valeur apportée — 1 min
 > *Slide : logo + « 3 irritants → 3 leviers ».*
 
-« Bonjour, je suis RFERT, consultant data pour ShopPulse, une marketplace fictive de
+« Bonjour, je suis RFERT, consultant data pour ShopPulse, une entreprise d'E-commerce fictive de
 3 000 vendeurs et 100 000 clients.
 
 Imaginez : vous offrez un cadeau, il arrive trois jours trop tard, vous mettez une
@@ -113,7 +116,7 @@ logistique sur TF-IDF** — F1 de 0,91 contre 0,90. La leçon : commencer simple
 la baseline comme juge de paix.
 
 Côté **éthique et biais** : j'ai mené un **audit d'équité par région**. Le modèle de
-retard n'est pas uniforme — l'écart de rappel entre régions atteint 0,22. Je le
+retard n'est pas uniforme — l'écart de rappel entre régions atteint 0,86 (très haut à Rio, bas dans le Rio Grande do Sul). Je le
 documente, avec les contraintes RGPD et les limites d'usage, parce qu'un modèle qu'on
 déploie sans en connaître les angles morts est un risque, pas un atout. »
 
@@ -203,7 +206,7 @@ plateforme, des réponses chiffrées et un modèle qui anticipe. Merci de votre 
   - Rappel faible à 0,5 → **API expose la proba**, **seuil 0,30**.
 - **Sentiment** (portugais, direct) : **TF-IDF F1 0,91 > NN PyTorch 0,90**.
   - Punchline humilité : *« le deep learning battu par une régression des années 50 »*.
-- **Éthique** : **audit d'équité par région** (écart rappel 0,22) + RGPD + limites.
+- **Éthique** : **audit d'équité par région** (écart rappel 0,86) + RGPD + limites.
 
 ## 6. Démo API — 1 min  ⚠️ EN DIRECT
 - `docker compose -f infra/docker-compose.yml up -d`

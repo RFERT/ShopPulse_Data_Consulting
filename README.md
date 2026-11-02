@@ -171,6 +171,7 @@ python -m shoppulse.models.train
 | [docs/deploiement_cloud.md](docs/deploiement_cloud.md) | Déploiement cloud AWS & coût (bonus) |
 | [docs/retro.md](docs/retro.md) | Rétrospective |
 | [docs/video_script.md](docs/video_script.md) | Support & script de la soutenance |
+| [docs/slides/shoppulse_soutenance.pptx](docs/slides/shoppulse_soutenance.pptx) | Diaporama de la soutenance (PPTX, [PDF](docs/slides/shoppulse_soutenance.pdf)) |
 
 ## ✨ Bonus (hors périmètre obligatoire)
 
