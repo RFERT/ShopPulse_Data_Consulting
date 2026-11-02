@@ -65,6 +65,45 @@ Services exposés :
 - **Airflow** : http://localhost:8080 (admin / admin)
 - **PostgreSQL** : localhost:5432
 
+### 🔌 Ports & conflits
+
+Tous les ports **hôte** sont paramétrables via le fichier `.env` (valeurs par défaut
+entre parenthèses). Changez-les si un port est **déjà occupé** par une autre application.
+
+| Variable `.env` | Service | Défaut |
+|---|---|---|
+| `API_PORT` | API FastAPI | 8000 |
+| `DASHBOARD_PORT` | Dashboard Streamlit | 8501 |
+| `AIRFLOW_PORT` | Interface Airflow | 8080 |
+| `POSTGRES_HOST_PORT` | PostgreSQL | 5432 |
+| `MLFLOW_PORT` | MLflow (profil `tracking`) | 5000 |
+| `ELASTICSEARCH_PORT` | Elasticsearch (profil `observability`) | 9200 |
+| `KIBANA_PORT` | Kibana (profil `observability`) | 5601 |
+
+**Changer un port** — éditez `.env` (créé depuis `.env.example`) puis relancez :
+```bash
+# exemple : l'API passe sur 8010 car 8000 est pris
+echo "API_PORT=8010" >> .env
+docker compose -f infra/docker-compose.yml up -d   # -> http://localhost:8010
+```
+Seul le port **hôte** (à gauche du `:`) change ; les ports internes aux conteneurs et la
+communication inter-services restent inchangés. Si vous changez `POSTGRES_HOST_PORT`,
+alignez `POSTGRES_PORT` pour que les outils locaux (hors conteneurs) se connectent au bon
+port.
+
+**Repérer / résoudre un conflit de port :**
+```bash
+# Message typique : "Bind for 0.0.0.0:8000 failed: port is already allocated"
+
+# Windows (PowerShell) — qui occupe le port 8000 ?
+Get-NetTCPConnection -LocalPort 8000 | Select-Object OwningProcess
+Get-Process -Id <PID>                 # identifier l'application
+# Linux / macOS
+lsof -i :8000
+```
+Deux options : **arrêter** l'application qui occupe le port, ou **changer** le port dans
+`.env` (recommandé). Après coup, `docker compose ... down` puis `up -d` repart proprement.
+
 ### Développement local
 ```bash
 python -m venv .venv
